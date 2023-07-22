@@ -106,6 +106,31 @@ Expr:	ID EQ REC {
             emitMIPSConstantIntAssignment(id1, id2, numid);		
             sum = 0;		
         }
+        | ID FUNC ID 	{ 
+            printf("\n RECOGNIZED RULE: Function statement\n"); 
+            $$ = AST_assignment("=",$1,$3);
+            if(found($1, currentScope) != 1) {
+                printf("SEMANTIC ERROR: Variable %s has NOT been declared in scope %s \n", $1, currentScope);
+                semanticCheckPassed = 0;
+            }
+            if(found($3, currentScope) != 1){
+                printf("SEMANTIC ERROR: Variable %s has NOT been declared in scope %s \n", $1, currentScope);
+                semanticCheckPassed = 0;
+            }
+            printf("\nChecking types: \n");
+            int typeMatch = compareTypes ($1, $3, currentScope);
+            if (typeMatch == 0){
+                printf("SEMANTIC ERROR: Type mismatch for variables %s and %s \n", $1, $3);
+                semanticCheckPassed = 0;
+            }
+            if (semanticCheckPassed == 1) {
+                printf("\n\n>>> FuncStmt Rule is SEMANTICALLY correct and IR code is emitted! <<<\n\n");
+                emitAssignment($1, $3);
+                emitMIPSAssignment($1, $3);
+            }
+                        
+        }
+
         | ID EQ ID 	{ 
             printf("\n RECOGNIZED RULE: Assignment statement\n"); 
             $$ = AST_assignment("=",$1,$3);
