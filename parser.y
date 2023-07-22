@@ -40,12 +40,13 @@ int semanticCheckPassed = 1;
 %token <character> RBRACK
 %token <character> LBRACE
 %token <character> RBRACE
+%token <character> COMMA
 
 
 %printer { fprintf(yyoutput, "%s", $$); } ID;
 %printer { fprintf(yyoutput, "%d", $$); } NUMBER;
 
-%type <ast> Program DeclList Decl VarDecl Stmt StmtList Expr REC
+%type <ast> Program DeclList Decl VarDecl Stmt StmtList Expr REC Array FuncDecl PARAM
 
 %start Program
 
@@ -106,7 +107,7 @@ Expr:	ID EQ REC {
             emitMIPSConstantIntAssignment(id1, id2, numid);		
             sum = 0;		
         }
-        | ID FUNC ID 	{ 
+        | ID FuncDecl ID 	{ 
             printf("\n RECOGNIZED RULE: Function statement\n"); 
             $$ = AST_assignment("=",$1,$3);
             if(found($1, currentScope) != 1) {
@@ -232,7 +233,7 @@ Array:  LBRACK RBRACK {}
 	| LBRACK ID RBRACK {}
 ;
 
-Func:	TYPE ID LPAREN PARAM RPAREN LBRACE VarDecl RBRACE {}
+FuncDecl:	TYPE ID LPAREN PARAM RPAREN LBRACE VarDecl RBRACE {}
 
 PARAM:	{}
 	| TYPE ID {}
