@@ -16,7 +16,7 @@ int symTabIndex = 0;
 int SYMTAB_SIZE = 20;
 
 void symTabAccess(void){
-	printf("::::> Symbol table accessed.\n");
+	printf(">>>> SYMBOL TABLE ACCESSED <<<<\n");
 }
 
 void addItem(char itemName[50], char itemKind[8], char itemType[8], int arrayLength, char scope[50]){
