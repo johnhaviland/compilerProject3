@@ -114,7 +114,22 @@ VarDecl:	TYPE ID SEMICOLON {
 ;
 
 FuncDecl:	{}
-		| TYPE ID LPAREN PARAM RPAREN LBRACE VarDecl RBRACE {}
+		| TYPE ID LPAREN PARAM RPAREN LBRACE VarDecl RBRACE {
+			char id1[50];
+    	printf("\n RECOGNIZED RULE: Function declaration %s\n", $2);
+	funcSymTabAccess();
+	int inSymTab = funcFound($2, currentScope);
+	if (inSymTab == 0) 
+		funcAddItem($2, "Func", $1, 0, currentScope);
+	else
+		printf("SEMANTIC ERROR: Function %s is already in the symbol table", $2);
+	showFuncSymTable();
+    	sprintf(id1, "%s", $2);
+    	int numid = getFuncID(id1, currentScope);
+    	emitConstantIntAssignment ($2, numid);	
+	$$ = AST_Type("Type",$1,$2);
+	printf("-----------> %s", $$->LHS);
+		}
 ;
 
 StmtList:	{}
