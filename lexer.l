@@ -22,7 +22,7 @@ ws          {delim}+
 
 %%
 
-"/*"    	{
+"/*"    		{
 				int c;
 				while((c = input()) != 0) {
 					if(c == '*') {
@@ -34,46 +34,46 @@ ws          {delim}+
 				}
 			}
 						
-"int"		{words++; chars += strlen(yytext);
+"int"			{words++; chars += strlen(yytext);
 				printf("%s : TYPE\n", yytext);
 				yylval.string = strdup(yytext); 
 				return TYPE;
 			}
 
-"boolean"	{words++; chars += strlen(yytext);
+"boolean"		{words++; chars += strlen(yytext);
 				printf("%s : TYPE\n", yytext);
 				yylval.string = strdup(yytext); 
 				return TYPE;
 			}
 
-"void"		{words++; chars += strlen(yytext);
+"void"			{words++; chars += strlen(yytext);
 				printf("%s : TYPE\n", yytext);
 				yylval.string = strdup(yytext); 
 				return TYPE;
 			}
 
-"float"		{words++; chars += strlen(yytext);
+"float"			{words++; chars += strlen(yytext);
 				printf("%s : TYPE\n", yytext);
 				yylval.string = strdup(yytext); 
 				return TYPE;
 			}
 
-"write"		{words++; chars += strlen(yytext);
+"write"			{words++; chars += strlen(yytext);
 				printf("%s : KEYWORD\n", yytext);
 				yylval.string = strdup(yytext); 
 				return WRITE;
 			}
 
-{ID}		{words++; chars += strlen(yytext);
-			  printf("%s : IDENTIFIER\n",yytext);
-			  yylval.string = strdup(yytext); 
-			  return ID;
+{ID}			{words++; chars += strlen(yytext);
+			  	printf("%s : IDENTIFIER\n",yytext);
+			  	yylval.string = strdup(yytext); 
+			  	return ID;
 			}
 			
-{NUMBER}	{words++; chars += strlen(yytext);
-			  printf("%s : NUMBER\n",yytext);
-			  yylval.number = atoi(strdup(yytext)); 
-			  return NUMBER;
+{NUMBER}		{words++; chars += strlen(yytext);
+			  	printf("%s : NUMBER\n",yytext);
+			 	yylval.number = atoi(strdup(yytext)); 
+			  	return NUMBER;
 			}
 			
 ";"			{chars++;
@@ -142,11 +142,17 @@ ws          {delim}+
 		  		return LBRACK;
 			}
 
-"]"		{chars++;
-		  printf("%s : RBRACK\n", yytext);
-		  yylval.string = strdup(yytext); 
-		  return RBRACK;
-		}
+"]"			{chars++;
+		  		printf("%s : RBRACK\n", yytext);
+		  		yylval.string = strdup(yytext); 
+		  		return RBRACK;
+			}
+
+","			{chars++;
+		  		printf("%s : COMMA\n", yytext);
+		  		yylval.string = strdup(yytext); 
+		  		return COMMA;
+			}
 
 
 [\n]	{lines++; chars = 0;}
