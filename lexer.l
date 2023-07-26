@@ -88,10 +88,28 @@ ws          {delim}+
 		  		return EQ;
 			}
 
+"*"			{chars++;
+		  		printf("%s : MULTIPLY\n", yytext);
+		  		yylval.string = strdup(yytext); 
+		  		return MULTIPLY;
+			}
+
+"/"			{chars++;
+		  		printf("%s : DIVIDE\n", yytext);
+		  		yylval.string = strdup(yytext); 
+		  		return DIVIDE;
+			}
+
 "+"			{chars++;
 		  		printf("%s : PLUS\n", yytext);
 		  		yylval.string = strdup(yytext); 
 		  		return PLUS;
+			}
+
+"-"			{chars++;
+		  		printf("%s : MINUS\n", yytext);
+		  		yylval.string = strdup(yytext); 
+		  		return MINUS;
 			}
 
 "("			{chars++;
