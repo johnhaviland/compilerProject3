@@ -1,7 +1,7 @@
 // Header file that creates symbol table
 #include <string.h>
 
-struct Entry{
+struct funcEntry{
 	int itemID;
 	char itemName[50];
 	char itemKind[8];
@@ -11,16 +11,16 @@ struct Entry{
 	char scope[];
 };
 
-struct Entry funcSymTabItems[100];
+struct funcEntry funcSymTabItems[100];
 
 int funcSymTabIndex = 0;
 int FUNC_SYMTAB_SIZE = 10;
 
-void symTabAccess(void){
+void funcSymTabAccess(void){
 	printf(">>>> FUNCTION SYMBOL TABLE ACCESSED <<<<\n");
 }
 
-void addItem(char itemName[50], char itemKind[8], char itemType[8], int arrayLength, char scope[]){
+void funcAddItem(char itemName[50], char itemKind[8], char itemType[8], int arrayLength, char scope[]){
 		funcSymTabItems[funcSymTabIndex].itemID = funcSymTabIndex;
 		strcpy(funcSymTabItems[funcSymTabIndex].itemName, itemName);
 		strcpy(funcSymTabItems[funcSymTabIndex].itemKind, itemKind);
@@ -31,7 +31,7 @@ void addItem(char itemName[50], char itemKind[8], char itemType[8], int arrayLen
 		funcSymTabIndex++;
 }
 
-int setValue(char itemName[50], int itemVal, char scope[50]){
+int setFuncValue(char itemName[50], int itemVal, char scope[50]){
 	for (int i = 0; i < FUNC_SYMTAB_SIZE; i++){
 		int str1 = strcmp(funcSymTabItems[i].itemName, itemName); 
 		int str2 = strcmp(funcSymTabItems[i].scope,scope); 
@@ -56,7 +56,7 @@ void showFuncSymTable(){
 	printf("=====================================================================\n");
 }
 
-int found(char itemName[50], char scope[]){
+int funcFound(char itemName[50], char scope[]){
 	for(int i = 0; i < FUNC_SYMTAB_SIZE; i++){
 		int str1 = strcmp(funcSymTabItems[i].itemName, itemName); 
 		int str2 = strcmp(funcSymTabItems[i].scope,scope); 
@@ -70,7 +70,7 @@ int found(char itemName[50], char scope[]){
 }
 
 
-int getValue(char itemName[50],char scope[]){
+int getFuncValue(char itemName[50],char scope[]){
 	int returnNum;
 	
 	for(int i = 0; i < FUNC_SYMTAB_SIZE; i++){
@@ -86,13 +86,13 @@ int getValue(char itemName[50],char scope[]){
 	return 0;
 }
 
-void printVal(){
+void printFuncVal(){
 	for(int i = 0; i < 4; i++) {
 		printf("%7d\n", funcSymTabItems[i].itemVal);
 	}
 }
 
-int getID(char itemName[50],char scope[]){
+int getFuncID(char itemName[50],char scope[]){
 	int returnID;
 
 	for(int i = 0; i < FUNC_SYMTAB_SIZE; i++){
@@ -108,7 +108,7 @@ int getID(char itemName[50],char scope[]){
 	return 0;
 }
 
-const char* getVariableType(char itemName[50], char scope[]){
+const char* getFuncVariableType(char itemName[50], char scope[]){
 	for(int i = 0; i < FUNC_SYMTAB_SIZE; i++){
 		int str1 = strcmp(funcSymTabItems[i].itemName, itemName); 
 		int str2 = strcmp(funcSymTabItems[i].scope,scope); 
@@ -121,7 +121,7 @@ const char* getVariableType(char itemName[50], char scope[]){
 	return NULL;
 }
 
-int compareTypes(char itemName1[50], char itemName2[50],char scope[]){
+int compareFuncTypes(char itemName1[50], char itemName2[50],char scope[]){
 	const char* idType1 = getVariableType(itemName1, scope);
 	const char* idType2 = getVariableType(itemName2, scope);
 	
