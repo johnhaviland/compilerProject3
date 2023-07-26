@@ -4,9 +4,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include "symbolTable.h"
+#include "funcSymbolTable.h"
 #include "AST.h"
 #include "IRcode.h"
 #include "Assembly.h"
+#include "registerManager.h"
 
 extern int yylex();
 extern int yyparse();
@@ -16,7 +18,7 @@ FILE * IRcode;
 
 void yyerror(const char* s);
 char currentScope[50]; 
-int sum = 0;
+int result = 0;
 int semanticCheckPassed = 1; 
 %}
 
@@ -32,6 +34,9 @@ int semanticCheckPassed = 1;
 %token <character> SEMICOLON
 %token <character> EQ 
 %token <character> PLUS
+%token <character> MINUS
+%token <character> MULTIPLY
+%token <character> DIVIDE
 %token <number> NUMBER
 %token <string> WRITE
 %token <character> LPAREN
@@ -42,6 +47,8 @@ int semanticCheckPassed = 1;
 %token <character> RBRACE
 %token <character> COMMA
 
+%left PLUS MINUS
+%left MULTIPLY DIVIDE
 
 %printer { fprintf(yyoutput, "%s", $$); } ID;
 %printer { fprintf(yyoutput, "%d", $$); } NUMBER;
@@ -228,22 +235,61 @@ Expr:	ID EQ REC {
         }	
 ;
 
-REC:	NUMBER PLUS REC {
-    		printf("\n RECOGNIZED RULE: NUMBER + REC\n");
-		sum = sum + $1;			
+REC:	NUMBER MULTIPLY REC {
+    		printf("\n RECOGNIZED RULE: NUMBER * REC\n");
+		result = result * $1;			
 	}
-	
+
+	| NUMBER DIVIDE REC {
+    		printf("\n RECOGNIZED RULE: NUMBER / REC\n");
+		result = result / $1;			
+	}
+
+	| NUMBER PLUS REC {
+    		printf("\n RECOGNIZED RULE: NUMBER + REC\n");
+		result = result + $1;			
+	}
+
+	| NUMBER MINUS REC {
+    		printf("\n RECOGNIZED RULE: NUMBER - REC\n");
+		result = result - $1;			
+	}
+
+	| ID MULTIPLY REC {
+        	printf("\n RECOGNIZED RULE: ID * REC\n");
+		symTabAccess();
+		char id1[50];
+		int id2 = getValue($1, currentScope);
+		result = result * id2;
+	}
+
+	| ID DIVIDE REC	{
+        	printf("\n RECOGNIZED RULE: ID / REC\n");
+		symTabAccess();
+		char id1[50];
+		int id2 = getValue($1, currentScope);
+		result = result / id2;
+	}
+
 	| ID PLUS REC	{
         	printf("\n RECOGNIZED RULE: ID + REC\n");
 		symTabAccess();
 		char id1[50];
 		int id2 = getValue($1, currentScope);
-		sum = sum + id2;
+		result = result + id2;
+	}
+	
+	| ID MINUS REC {
+        	printf("\n RECOGNIZED RULE: ID - REC\n");
+		symTabAccess();
+		char id1[50];
+		int id2 = getValue($1, currentScope);
+		result = result - id2;
 	}
 
 	| NUMBER {
         	printf("\n RECOGNIZED RULE: ADD STATEMENT NUM END\n");
-		sum = sum + $1;
+		result = result + $1;
 	}
 
 	| ID {
@@ -251,7 +297,7 @@ REC:	NUMBER PLUS REC {
 		symTabAccess();
 		char id1[50];
 		int id2 = getValue($1, currentScope);
-		sum = sum + id2;
+		result = result + id2;
 	}
 ;
 
