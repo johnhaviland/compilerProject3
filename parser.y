@@ -118,8 +118,8 @@ FuncDecl:	{}
 			char id1[50];
     	printf("\n RECOGNIZED RULE: Function declaration %s\n", $2);
 	funcSymTabAccess();
-	int inSymTab = funcFound($2, currentScope);
-	if (inSymTab == 0) 
+	int inFuncSymTab = funcFound($2, currentScope);
+	if (inFuncSymTab == 0) 
 		funcAddItem($2, "Func", $1, 0, currentScope);
 	else
 		printf("SEMANTIC ERROR: Function %s is already in the symbol table", $2);
