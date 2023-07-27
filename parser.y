@@ -142,7 +142,9 @@ Stmt:	SEMICOLON {}
     }
 ;
 
-Expr:	ID EQ REC { 
+Expr:	LPAREN Expr RPAREN {}
+
+	| ID EQ REC { 
 		printf("\n RECOGNIZED RULE: Simplest expression\n"); 
            	char id1[50], id2[50];
             	sprintf(id1, "%s", $1);
