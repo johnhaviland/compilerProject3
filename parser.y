@@ -148,11 +148,11 @@ Expr:	LPAREN Expr RPAREN {}
 		printf("\n RECOGNIZED RULE: Simplest expression\n"); 
            	char id1[50], id2[50];
             	sprintf(id1, "%s", $1);
-            	sprintf(id2, "%d", sum);
+            	sprintf(id2, "%d", result);
             	int numid = getID(id1, currentScope);
             	emitIR(id1, id2, numid);
             	emitMIPSConstantIntAssignment(id1, id2, numid);		
-            	sum = 0;		
+            	result = 0;		
         }
 
         | ID EQ ID { 
@@ -181,7 +181,7 @@ Expr:	LPAREN Expr RPAREN {}
             	}
 	}
 
-        | ID EQ ID ARRAY { 
+        | ID EQ ID Array { 
             printf("\n RECOGNIZED RULE: Array Assignment statement\n"); 
             $$ = AST_assignment("=",$1,$3);
             if(found($1, currentScope) != 1) {
@@ -318,8 +318,7 @@ REC:	NUMBER MULTIPLY REC {
 	}
 ;
 
-Array:  {}
-	| LBRACK RBRACK {}
+Array:  LBRACK RBRACK {}
 	| LBRACK NUMBER RBRACK {}
 	| LBRACK ID RBRACK {}
 ;
