@@ -136,20 +136,3 @@ int compareFuncTypes(char itemName1[50], char itemName2[50],char scope[]){
 		
 	else return 0;
 }
-    
-
-int compareTypes(char itemName1[50], char itemName2[50],char scope[]){
-	const char* idType1 = getFuncVariableType(itemName1, scope);
-	const char* idType2 = getFuncVariableType(itemName2, scope);
-	
-	printf("%s = %s\n", idType1, idType2);
-	
-	int typeMatch = strcmp(idType1, idType2);
-	
-	if(typeMatch == 0){
-		return 1; 
-	}
-		
-	else return 0;
-}
-    
