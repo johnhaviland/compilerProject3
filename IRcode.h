@@ -2,7 +2,7 @@
 #include <stdio.h>
 FILE * IRcode;
 int numbers[10];
-int index = 0;
+int irIndex = 0;
 
 void initIRcodeFile(){
     IRcode = fopen("IRcode.ir", "w");
@@ -41,8 +41,8 @@ void emitWriteId(char * id){
 }
 
 void addNumbers(int num){
-    numbers[index] = num;
-    index++;
+    numbers[irIndex] = num;
+    irIndex++;
 }
 
 int sumOfNumbers(){

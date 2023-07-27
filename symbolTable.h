@@ -1,5 +1,6 @@
 // Header file that creates symbol table
 #include <string.h>
+#include <stdio.h>
 
 struct Entry{
 	int itemID;

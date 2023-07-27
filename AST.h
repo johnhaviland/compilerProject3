@@ -1,5 +1,7 @@
 // Header file to create Abstract Syntax Tree (AST)
 #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 struct AST{
 	char nodeType[50];
