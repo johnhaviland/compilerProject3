@@ -1,22 +1,19 @@
 // Header file to manage the registers for IR/MIPS code
-
 #include <stdio.h>
 
 #define NUM_REGISTERS 10
 
-struct RegisterManager{
-  int registers[NUM_REGISTERS];
-};
+int registers[NUM_REGISTERS];
 
-void initializeRegisterManager(RegisterManager *rm){
+void initializeRegisterManager(){
 	for (int i = 0; i < NUM_REGISTERS; i++){
-    rm->registers[i] = 0;
+    registers[i] = 0;
   }
 }
 
-int isRegisterInUse(RegisterManager *rm, int r){
+int isRegisterInUse(int r){
 	if (r < NUM_REGISTERS && r >= 0){
-		if (rm->registers[r]){
+		if (registers[r]){
 			printf("REGISTER T%d IS IN USE\n", r);
       return 1;
     } 
@@ -31,20 +28,20 @@ int isRegisterInUse(RegisterManager *rm, int r){
   }
 }
 
-int getNextAvailableRegister(RegisterManager *rm){
+int getNextAvailableRegister(){
   for (int i = 0; i < NUM_REGISTERS; i++){
-    if (!rm->registers[i]){
-      rm->registers[r] = 1;
-      return r;
+    if (!registers[i]){
+      registers[i] = 1;
+      return i;
     }
   }
   printf("ERROR: NO AVAILABLE REGISTERS\n");
   return -1;
 }
 
-void freeRegister(RegisterManager *rm, int r){
+void freeRegister(int r){
   if (r < NUM_REGISTERS && r >= 0){
-    rm->registers[r] = 0;
+    registers[r] = 0;
     printf("REGISTER T%d IS NOW AVAILABLE\n", r);
   }
   else{
@@ -52,8 +49,10 @@ void freeRegister(RegisterManager *rm, int r){
   }
 }
 
-void printRegisterStatus(RegisterManager *rm){
+void printRegisterStatus(){
   printf(">>>> REGISTER STATUS <<<<\n");
 
   for (int i = 0; i < NUM_REGISTERS; i++){
-    printf("T%d: %s\n", i, rm->registers[i] ? "IN USE" : "AVAILABLE");
+    printf("T%d: %s\n", i, registers[i] ? "IN USE" : "AVAILABLE");
+  }
+}
